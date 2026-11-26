@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="An interactive pathfinding visualizer for BFS, DFS, Dijkstra and A*.">
+  <title>RouteLab — Pathfinding visualizer</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="algorithms.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <div class="site-wrap">
+    <header class="site-header">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">↗</span><span>RouteLab</span></div>
+      <span class="header-note">A small algorithm playground</span>
+    </header>
+
+    <main>
+      <div class="heading">
+        <p class="eyebrow">Algorithms / Visualization</p>
+        <h1>Find your way.</h1>
+        <p>Draw obstacles on the grid, choose an algorithm, and watch how it searches for a route.</p>
+      </div>
+
+      <div class="workspace">
+        <aside class="panel controls" aria-label="Pathfinding controls">
+          <h2>Controls</h2>
+
+          <label class="field-label" for="algorithm">Algorithm</label>
+          <select id="algorithm">
+            <option value="bfs">Breadth-first search (BFS)</option>
+            <option value="dfs">Depth-first search (DFS)</option>
+            <option value="dijkstra">Dijkstra's algorithm</option>
+            <option value="astar" selected>A* search</option>
+          </select>
+          <p id="algorithm-description" class="helper">Uses a heuristic to find low-cost paths efficiently.</p>
+
+          <p class="field-label">Draw on the grid</p>
+          <div class="tool-group" role="group" aria-label="Choose drawing tool">
+            <button type="button" class="tool is-selected" data-tool="wall" aria-pressed="true">Wall</button>
+            <button type="button" class="tool" data-tool="weight" aria-pressed="false">Weight</button>
+            <button type="button" class="tool" data-tool="erase" aria-pressed="false">Erase</button>
+            <button type="button" class="tool" data-tool="start" aria-pressed="false">Start</button>
+            <button type="button" class="tool" data-tool="goal" aria-pressed="false">Goal</button>
+          </div>
+          <p class="helper">Click or drag to draw. Weighted squares cost 5 to enter instead of 1.</p>
+
+          <label class="field-label" for="speed">Animation speed <span id="speed-text">Normal</span></label>
+          <input type="range" id="speed" min="1" max="3" value="2" step="1">
+          <div class="speed-labels"><span>Slow</span><span>Fast</span></div>
+
+          <button id="run" type="button" class="btn btn-primary">Run algorithm <span aria-hidden="true">→</span></button>
+          <div class="button-pair">
+            <button id="random" type="button" class="btn btn-secondary">Random walls</button>
+            <button id="clear-path" type="button" class="btn btn-secondary">Clear path</button>
+          </div>
+          <button id="reset" type="button" class="btn btn-text">Reset board</button>
+        </aside>
+
+        <section class="panel board-panel" aria-label="Pathfinding board">
+          <div class="board-heading">
+            <div>
+              <h2>Grid explorer</h2>
+              <p class="helper">Start at S, reach G. Move in four directions.</p>
+            </div>
+            <span class="board-dimensions">24 × 14</span>
+          </div>
+          <div class="board-scroll">
+            <div id="grid" class="grid" role="grid" aria-label="Interactive pathfinding grid"></div>
+          </div>
+          <div class="legend" aria-label="Grid legend">
+            <span><i class="legend-chip start-chip"></i>Start</span>
+            <span><i class="legend-chip goal-chip"></i>Goal</span>
+            <span><i class="legend-chip wall-chip"></i>Wall</span>
+            <span><i class="legend-chip weight-chip"></i>Weight ×5</span>
+            <span><i class="legend-chip visited-chip"></i>Visited</span>
+            <span><i class="legend-chip route-chip"></i>Path</span>
+          </div>
+          <div class="status-row"><span id="status" role="status" aria-live="polite">Ready to explore. Press “Run algorithm” to begin.</span></div>
+        </section>
+      </div>
+
+      <section class="stats panel" aria-label="Search results">
+        <div><span class="stat-label">Visited cells</span><strong id="stat-visited">—</strong></div>
+        <div><span class="stat-label">Path length</span><strong id="stat-steps">—</strong></div>
+        <div><span class="stat-label">Path cost</span><strong id="stat-cost">—</strong></div>
+        <div><span class="stat-label">Compute time</span><strong id="stat-time">—</strong></div>
+      </section>
+      <p class="footnote">BFS finds the shortest route by steps when moves are equally weighted. Dijkstra and A* account for weighted squares. DFS does not guarantee the shortest path.</p>
+    </main>
+    <footer>RouteLab <span>·</span> Built with HTML, CSS & JavaScript</footer>
+  </div>
+</body>
+</html>
